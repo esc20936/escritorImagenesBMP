@@ -1,18 +1,18 @@
-from cmath import cos
-from math import sin
+#Author: Pablo Escobar
+#Carnet: 20936
+#Date: 08/07/2022
+#Description: Programa generador de archivos BMP 
+
+# Importamos nuestro modulo para dibujar
 from gl import Render
 
-rend = Render(512, 512)
+rend = Render() # Generamos un objeto de tipo Render
+rend.glCreateWindow(512, 512) # Creamos una ventana de 512x512
+rend.glClearColor(0.01,0.7,0.9) # Establecemos el color de la ventana
+rend.glColor(0.8,0.8,0.8) # Establecemos el color del viewPort
+rend.glViewPort(4,4,500,500) # Generamos el viewPort
 
-rend.glClearColor(0,0.5,0)
-rend.glColor(1,1,0)
-rend.glClear()
-#
-for i in range(512):
-    rend.glPoint(i, int(sin(i/10) * 100 + 100))
-rend.glColor(1,0,0)
+rend.glColor(1,0,0) # Establecemos el color con el que dibujaremos
+rend.glPoint(0,0) # Dibujamos un punto en la posicion (0,0)
 
-for i in range(512):
-    rend.glPoint(i, int(abs(cos(i/10) * 100 + 100)))
-# rend.glPoint(100,100)
-rend.glFinish("output.bmp")
+rend.glFinish("output.bmp") # Guardamos el archivo en output.bmp
