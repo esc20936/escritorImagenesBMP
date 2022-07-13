@@ -5,6 +5,7 @@
 
 #Importamos los modulos necesarios
 import struct
+import numpy as np
 
 # Función que retornara el valor como un objeto de tipo bytes
 # con tamano de 1 byte
@@ -128,5 +129,39 @@ class Render(object):
         if( (-1<= x <= 1) and (-1<= y <= 1)):
             xFixed = (x +1) * (self.viewPortWidth // 2) + self.viewPortX
             yFixed = (y +1) * (self.viewPortHeight // 2) + self.viewPortY
-            print(xFixed, yFixed)
-            self.pixels[xFixed if x<1 else xFixed-1][yFixed if y<1 else yFixed-1] = clr or self.currColor
+            self.pixels[int(xFixed if x<1 else xFixed-1)][int(yFixed if y<1 else yFixed-1)] = clr or self.currColor
+            return (xFixed, yFixed)
+
+    def glPointa(self, x, y, clr = None):
+        if( (self.viewPortX<= x <= self.viewPortWidth) and (self.viewPortY<= y <= self.viewPortHeight)):
+            self.pixels[int(x)][int(y)] = clr or self.currColor
+
+    # draw line from (x0, y0) to (x1, y1)
+    def drawLine(self,x1,y1,x2,y2):
+        dx = abs(x2 - x1)
+        dy = abs(y2 - y1)
+        steep = dy > dx
+        if steep:
+            x1, y1 = y1, x1
+            x2, y2 = y2, x2
+        if x1 > x2:
+            x1, x2 = x2, x1
+            y1, y2 = y2, y1
+        dx = abs(x2 - x1)
+        dy = abs(y2 - y1)
+        offset = 0
+        threshold = dx
+        y = y1
+        for x in np.arange(x1, x2):
+            if steep:
+                self.glPointa(y, x)
+            else:
+                self.glPointa(x, y)
+            offset += dy * 2
+            if offset >= threshold:
+                y += 1 if y1 < y2 else -1
+                threshold += 2 * dx
+        
+
+   
+       
