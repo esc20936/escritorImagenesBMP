@@ -133,8 +133,7 @@ class Render(object):
             return (xFixed, yFixed)
 
     def glPointa(self, x, y, clr = None):
-        if( (self.viewPortX<= x <= self.viewPortWidth) and (self.viewPortY<= y <= self.viewPortHeight)):
-            self.pixels[int(x)][int(y)] = clr or self.currColor
+        self.pixels[int(x)][int(y)] = clr or self.currColor
 
     # draw line from (x0, y0) to (x1, y1)
     def drawLine(self,x1,y1,x2,y2):
