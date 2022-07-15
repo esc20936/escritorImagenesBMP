@@ -52,7 +52,7 @@ for i in range(0,10):
 drawLineFromArray(puntosFigura6)
 
 # Extra pintar poligono dado coordenadas x,y
-rend.fillPolygon(puntosFigura5)
+rend.fillPolygon(puntosFigura6)
 
 
 rend.glFinish("output.bmp") # Guardamos el archivo en output.bmp
