@@ -161,6 +161,43 @@ class Render(object):
                 y += 1 if y1 < y2 else -1
                 threshold += 2 * dx
         
+    # determinar si un punto esta dentro de un poligono
+    def checkIfPointIsInside(self,x,y,polygon):
+        n = len(polygon)
+        inside = False
+        p1x,p1y = polygon[0]
+        for i in range(n+1):
+            p2x,p2y = polygon[i % n]
+            if y > min(p1y,p2y):
+                if y <= max(p1y,p2y):
+                    if x <= max(p1x,p2x):
+                        if p1y != p2y:
+                            xinters = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+                        if p1x == p2x or x <= xinters:
+                            inside = not inside
+            p1x,p1y = p2x,p2y
+        return inside
+
+    # llenar un poligono dada una lista de puntos
+    def fillPolygon(self,points):
+        n = len(points)
+        xmin = points[0][0]
+        ymin = points[0][1]
+        xmax = points[0][0]
+        ymax = points[0][1]
+        for i in range(1,n):
+            if points[i][0] < xmin:
+                xmin = points[i][0]
+            if points[i][0] > xmax:
+                xmax = points[i][0]
+            if points[i][1] < ymin:
+                ymin = points[i][1]
+            if points[i][1] > ymax:
+                ymax = points[i][1]
+        for y in np.arange(ymin,ymax+1):
+            for x in np.arange(xmin,xmax+1):
+                if self.checkIfPointIsInside(x,y,points):
+                    self.glPointa(x,y)
 
    
        
